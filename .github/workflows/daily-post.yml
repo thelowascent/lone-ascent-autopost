@@ -1,0 +1,43 @@
+name: Daily Instagram post
+
+on:
+  schedule:
+    # 03:30 UTC = 09:00 IST. Adjust to your preferred posting time.
+    - cron: "30 3 * * *"
+  workflow_dispatch: {}   # lets you trigger a manual test run from the Actions tab
+
+permissions:
+  contents: write          # needed so the job can commit today's image back
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install deps
+        run: pip install -r requirements.txt
+
+      - name: Generate + render card
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: cd src && python make_post.py
+
+      - name: Commit today's card
+        run: |
+          git config user.name  "lone-ascent-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add output/
+          git commit -m "post: $(date -u +%F)" || echo "nothing to commit"
+          git push
+
+      - name: Publish to Instagram
+        env:
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          GRAPH_VERSION: ${{ vars.GRAPH_VERSION }}
+        run: cd src && python publish.py
