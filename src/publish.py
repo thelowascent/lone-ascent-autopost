@@ -47,6 +47,8 @@ def publish(image_url: str, caption: str):
     r = requests.post(f"{GRAPH}/{ig_id}/media",
                       data={"image_url": image_url, "caption": caption,
                             "access_token": token}, timeout=60)
+   if not r.ok:
+        print("Meta error:", r.status_code, r.text)
     r.raise_for_status()
     creation_id = r.json()["id"]
     print("container:", creation_id)
