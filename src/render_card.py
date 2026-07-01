@@ -77,7 +77,7 @@ def render(quote: str, out_path: str):
     draw.rectangle([margin, hy + 6, margin + 28, hy + 12], fill=config.ACCENT)
     draw.text((margin + 44, hy - 8), config.HANDLE, font=meta_font, fill=config.MUTED)
 
-    img.save(out_path, "PNG")
+   img.convert("RGB").save(out_path, "JPEG", quality=90)
     return out_path
 
 
