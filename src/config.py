@@ -35,4 +35,4 @@ VOICE_BRIEF = (
 GEMINI_MODEL = "gemini-2.5-flash"
 
 # Graph API version (bump when Meta deprecates; configurable via repo variable)
-GRAPH_VERSION = os.environ.get("GRAPH_VERSION", "v22.0")
+GRAPH_VERSION = os.environ.get("GRAPH_VERSION") or "v22.0"
