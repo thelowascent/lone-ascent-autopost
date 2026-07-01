@@ -78,12 +78,10 @@ def render(quote: str, out_path: str):
     draw.text((margin + 44, hy - 8), config.HANDLE, font=meta_font, fill=config.MUTED)
     
     img.convert("RGB").save(out_path, "JPEG", quality=90)
-       return out_path
-
-
+    return out_path
 
 
 if __name__ == "__main__":
     render("Discipline is just remembering what you actually want.",
-           "output/_preview.png")
-    print("wrote output/_preview.png")
+           "output/_preview.jpg")
+    print("wrote output/_preview.jpg")
