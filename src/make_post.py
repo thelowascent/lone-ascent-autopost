@@ -14,7 +14,7 @@ OUT_DIR = os.path.join(os.path.dirname(__file__), "..", "output")
 
 def main():
     os.makedirs(OUT_DIR, exist_ok=True)
-    today = datetime.date.today().isoformat()
+    today = datetime.datetime.utcnow().strftime("%Y-%m-%d-%H%M")
     filename = f"{today}.jpg"
     png_path = os.path.join(OUT_DIR, filename)
 
